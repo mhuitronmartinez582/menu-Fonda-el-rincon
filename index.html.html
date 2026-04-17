@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Menú - Fonda El Rincón</title>
+    <style>
+        /* ESTILOS BÁSICOS - SIN COSAS COMPLICADAS */
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: white;
+        }
+
+        /* TÍTULO ARRIBA */
+        .titulo-principal {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .titulo-principal h1 {
+            font-size: 36px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .titulo-principal p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* MENÚ SUPERIOR (AHORA DEBAJO DEL TÍTULO) */
+        .menu-botones {
+            background: #333;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+
+        .menu-botones a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            background: #555;
+            border-radius: 3px;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .menu-botones a:hover {
+            background: #777;
+        }
+
+        /* Contenedor principal */
+        .contenedor {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .contenedor td {
+            vertical-align: top;
+            padding: 10px;
+        }
+
+        /* Sección de máscaras (productos) */
+        .seccion-mascaras {
+            width: 70%;
+        }
+
+        /* Sección del frame */
+        .seccion-frame {
+            width: 30%;
+            background: #f0f0f0;
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+
+        /* Grid básico para las máscaras */
+        .grid-mascaras {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        /* Cada máscara (producto) - MUY BÁSICO */
+        .mascara {
+            width: 200px;
+            border: 1px solid #999;
+            padding: 10px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .mascara img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        .mascara h4 {
+            margin: 10px 0 5px 0;
+            font-size: 16px;
+        }
+
+        .mascara p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .precio {
+            color: green;
+            font-weight: bold;
+        }
+
+        button {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: #ddd;
+            border: 1px solid #999;
+            cursor: pointer;
+        }
+
+        /* Frame (donde se ven los detalles) */
+        .frame {
+            border: 1px solid #999;
+            background: white;
+            padding: 15px;
+            min-height: 400px;
+        }
+
+        .frame img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border: 1px solid #ccc;
+        }
+
+        .frame-titulo {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .frame-precio {
+            font-size: 18px;
+            color: green;
+            margin: 10px 0;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        .mensaje-inicial {
+            color: #666;
+            text-align: center;
+            padding: 40px 10px;
+        }
+
+        /* Títulos de sección */
+        .titulo-seccion {
+            background: #ddd;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-left: 5px solid #333;
+        }
+    </style>
+</head>
+<body>
+
+<!-- TÍTULO ARRIBA -->
+<div class="titulo-principal">
+    <h1>🍽️ Fonda El Rincón</h1>
+    <p>Menú Digital - Haz clic en cualquier producto para ver detalles</p>
+</div>
+
+<!-- MENÚ DE BOTONES (DEBAJO DEL TÍTULO) -->
+<div class="menu-botones">
+    <a onclick="mostrarSeccion('inicio')">🏠 Inicio</a>
+    <a onclick="mostrarSeccion('populares')">🔥 Populares</a>
+    <a onclick="mostrarSeccion('platosfuertes')">🍛 Platos Fuertes</a>
+    <a onclick="mostrarSeccion('postres')">🍰 Postres</a>
+    <a onclick="mostrarSeccion('bebidas')">🥤 Bebidas</a>
+    <a onclick="mostrarSeccion('saludable')">🥗 Saludable</a>
+    <a onclick="mostrarSeccion('carrito')">🛒 Carrito (<span id="contador-carrito">0</span>)</a>
+</div>
+
+<table class="contenedor">
+    <tr>
+        <!-- COLUMNA IZQUIERDA: MÁSCARAS (PRODUCTOS POR CATEGORÍA) -->
+        <td class="seccion-mascaras">
+            <div id="seccion-inicio">
+                <div class="titulo-seccion">📋 Todos nuestros platillos</div>
+                <div class="grid-mascaras" id="grid-inicio"></div>
+            </div>
+
+            <div id="seccion-populares" style="display:none;">
+                <div class="titulo-seccion">🔥 Los más populares</div>
+                <div class="grid-mascaras" id="grid-populares"></div>
+            </div>
+
+            <div id="seccion-platosfuertes" style="display:none;">
+                <div class="titulo-seccion">🍛 Platos Fuertes</div>
+                <div class="grid-mascaras" id="grid-platosfuertes"></div>
+            </div>
+
+            <div id="seccion-postres" style="display:none;">
+                <div class="titulo-seccion">🍰 Postres</div>
+                <div class="grid-mascaras" id="grid-postres"></div>
+            </div>
+
+            <div id="seccion-bebidas" style="display:none;">
+                <div class="titulo-seccion">🥤 Bebidas</div>
+                <div class="grid-mascaras" id="grid-bebidas"></div>
+            </div>
+
+            <div id="seccion-saludable" style="display:none;">
+                <div class="titulo-seccion">🥗 Saludable</div>
+                <div class="grid-mascaras" id="grid-saludable"></div>
+            </div>
+
+            <div id="seccion-carrito" style="display:none;">
+                <div class="titulo-seccion">🛒 Mi Carrito</div>
+                <div id="carrito-contenido">
+                    <p>Tu carrito está vacío</p>
+                </div>
+                <button onclick="vaciarCarrito()" style="margin-top:10px;">🗑️ Vaciar Carrito</button>
+                <button onclick="pagar()" style="margin-top:10px;">✅ Pagar</button>
+            </div>
+        </td>
+
+        <!-- COLUMNA DERECHA: FRAME (DETALLES) -->
+        <td class="seccion-frame">
+            <h3>📺 Detalles del Platillo</h3>
+            <div class="frame" id="frame-contenido">
+                <div class="mensaje-inicial">
+                    🍽️<br><br>
+                    Selecciona un platillo<br>
+                    para ver sus detalles aquí
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<hr>
+<p style="text-align: center;">📍 Col. Santa Cecilia #123 | 📞 5579 5578 23 | Horario: 07:00 - 23:00</p>
+
+<script>
+    // DATOS DE LOS PRODUCTOS CON CATEGORÍAS - COMIDA MEXICANA
+    const productos = [
+        // POPULARES
+        { id: 0, nombre: "🍲 Pozole Rojo", precio: 180, descripcion: "Maíz cacahuazintle, carne de cerdo, chile rojo, ajo, cebolla, acompañado de lechuga, rábanos, orégano y tostadas.", imagen: "https://www.foodandwine.com/thmb/MuV16R1GijOi-B7tl7fAcnerwbI=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/posole-rojo-ft-RECIPE0818-2d7d7b0f97f94cdcb2115ef63f809341.jpg", rating: "★★★★★", categoria: "populares" },
+        { id: 1, nombre: "🌮 Tacos al Pastor (5 pzas)", precio: 120, descripcion: "Cinco tacos de pastor con piña, cebolla, cilantro y salsa roja. Tortillas de maíz hechas a mano.", imagen: "https://images.unsplash.com/photo-1599974579688-8dbdd335c77f?w=300", rating: "★★★★★", categoria: "populares" },
+        { id: 2, nombre: "🧀 Quesadillas Mexicanas", precio: 85, descripcion: "Tres quesadillas de maíz con queso Oaxaca, acompañadas de crema y salsa verde.", imagen: "https://tse1.mm.bing.net/th/id/OIP.eeZqWZZlAPILul3OyRYSUQHaE8?rs=1&pid=ImgDetMain", rating: "★★★★½", categoria: "populares" },
+
+        // PLATOS FUERTES
+        { id: 3, nombre: "🍛 Mole Poblano", precio: 195, descripcion: "Pechuga de pollo bañada en mole poblano, acompañado de arroz mexicano y frijoles refritos.", imagen: "https://tse2.mm.bing.net/th/id/OIP.ayKhPvsL9UmjuJttvtLAngHaFH?rs=1&pid=ImgDetMain&o=7&rm=3", rating: "★★★★★", categoria: "platosfuertes" },
+        { id: 4, nombre: "🌯 Enchiladas Verdes", precio: 145, descripcion: "Tres enchiladas de pollo con salsa verde, crema, queso fresco y cebolla. Servidas con frijoles.", imagen: "https://blog.amigofoods.com/wp-content/uploads/2021/12/mexican-green-enchiladas.jpg", rating: "★★★★☆", categoria: "platosfuertes" },
+        { id: 5, nombre: "🍖 Chiles Rellenos", precio: 165, descripcion: "Dos chiles poblanos rellenos de queso, bañados en salsa de jitomate, servidos con arroz.", imagen: "https://cdn.kiwilimon.com/recetaimagen/22517/24137.jpg", rating: "★★★★½", categoria: "platosfuertes" },
+        { id: 6, nombre: "🌮 Flautas de Pollo", precio: 125, descripcion: "Cuatro flautas de pollo crujientes, servidas con crema, queso, lechuga y salsa roja.", imagen: "https://www.maricruzavalos.com/wp-content/uploads/2019/09/flautas-de-pollo-recipe-1024x1024.jpg", rating: "★★★★☆", categoria: "platosfuertes" },
+        { id: 7, nombre: "🍲 Birria de Res", precio: 190, descripcion: "Birria de res en su jugo, acompañada de cebolla, cilantro, limón y tortillas de maíz.", imagen: "https://i.pinimg.com/originals/e1/6a/f0/e16af066c07821156ae97b55dffe6e9b.jpg", rating: "★★★★★", categoria: "platosfuertes" },
+
+        // POSTRES MEXICANOS
+        { id: 8, nombre: "🍮 Flan Napolitano", precio: 55, descripcion: "Flan cremoso con queso, cubierto con cajeta y nueces.", imagen: "https://i.pinimg.com/originals/76/83/1a/76831ab57b23ce88636fd04ff6117138.jpg", rating: "★★★★★", categoria: "postres" },
+        { id: 9, nombre: "🍰 Pastel de Tres Leches", precio: 65, descripcion: "Esponjoso pastel bañado en tres leches, cubierto con crema batida y cerezas.", imagen: "https://recetasdecocina.elmundo.es/wp-content/uploads/2024/05/tarta-de-tres-leches.jpg", rating: "★★★★★", categoria: "postres" },
+        { id: 10, nombre: "🍩 Churros con Chocolate", precio: 45, descripcion: "Seis churros crujientes espolvoreados con azúcar y canela, acompañados de chocolate caliente.", imagen: "https://th.bing.com/th/id/R.4cd4d9ba980afbbe99ab3c2ebe02f1fb?rik=TCWj%2fHpivCkfhw&riu=http%3a%2f%2fcookingtheglobe.com%2fwp-content%2fuploads%2f2016%2f06%2fchurros-con-chocolate.jpg&ehk=UspaAMc7v6e4gEhwvrBBdHCpporbyAYE9c4C%2bvMlN8U%3d&risl=&pid=ImgRaw&r=0", rating: "★★★★½", categoria: "postres" },
+        { id: 11, nombre: "🍨 Nieves de Garrafa", precio: 35, descripcion: "Una bola de nieve artesanal. Sabores: Vainilla, Chocolate, Fresa o Limón.", imagen: "https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=300", rating: "★★★★☆", categoria: "postres" },
+
+        // BEBIDAS MEXICANAS
+        { id: 12, nombre: "🥤 Aguas Frescas", precio: 25, descripcion: "Vaso de 500ml. Sabores: Jamaica, Horchata, Limón o Tamarindo.", imagen: "https://www.thetacoguycatering.com/wp-content/uploads/2024/02/shutterstock_2023599671.jpg", rating: "★★★★☆", categoria: "bebidas" },
+        { id: 13, nombre: "🍫 Chocolate Caliente", precio: 35, descripcion: "Chocolate mexicano caliente, preparado con leche y canela.", imagen: "https://media.diariouno.com.ar/p/7a380f7343da54f7d6cfb5570a50dd69/adjuntos/298/imagenes/009/337/0009337985/1200x0/smart/chocolate-caliente-con-avena-1jpg.jpg", rating: "★★★★★", categoria: "bebidas" },
+        { id: 14, nombre: "🥛 Atole de Vainilla", precio: 30, descripcion: "Atole espeso de vainilla, calientito y reconfortante.", imagen: "https://cocina-casera.com/mx/wp-content/uploads/2018/08/atole-vainilla-700x475.jpg", rating: "★★★★½", categoria: "bebidas" },
+        { id: 15, nombre: "🧉 Tejuino", precio: 28, descripcion: "Bebida fermentada de maíz, servida con hielo, limón y chile en polvo.", imagen: "https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=300", rating: "★★★★☆", categoria: "bebidas" },
+
+        // SALUDABLE
+        { id: 16, nombre: "🥗 Ensalada de Nopal", precio: 95, descripcion: "Nopales asados, tomate, cebolla, cilantro, queso panela y aguacate.", imagen: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300", rating: "★★★★☆", categoria: "saludable" },
+        { id: 17, nombre: "🥑 Ceviche de Pescado", precio: 130, descripcion: "Pescado fresco marinado en limón, con tomate, cebolla, cilantro, aguacate y tostadas.", imagen: "https://th.bing.com/th/id/R.1b4f4550e0caf01efe5a5efa06666e1f?rik=UnWXim4r%2bv1pSA&pid=ImgRaw&r=0", rating: "★★★★½", categoria: "saludable" },
+        { id: 18, nombre: "🌯 Burrito Bowl", precio: 110, descripcion: "Base de arroz y lechuga, pollo asado, frijoles, pico de gallo, guacamole y crema ligera.", imagen: "https://th.bing.com/th/id/R.8cffe5b126715453d0aaad60acf9dcae?rik=UgG%2f8Bp6m9PH3Q&pid=ImgRaw&r=0", rating: "★★★★☆", categoria: "saludable" }
+    ];
+
+    // CARRITO
+    let carrito = [];
+
+    // FUNCIÓN PARA AGREGAR AL CARRITO
+    function agregarAlCarrito(id) {
+        const producto = productos.find(p => p.id === id);
+        const existente = carrito.find(item => item.id === id);
+
+        if(existente) {
+            existente.cantidad++;
+        } else {
+            carrito.push({
+                id: producto.id,
+                nombre: producto.nombre,
+                precio: producto.precio,
+                cantidad: 1
+            });
+        }
+
+        actualizarCarrito();
+        alert(`✅ ${producto.nombre} agregado al carrito`);
+    }
+
+    // ACTUALIZAR CARRITO
+    function actualizarCarrito() {
+        const contador = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+        document.getElementById('contador-carrito').innerHTML = contador;
+
+        // Actualizar vista del carrito si está visible
+        const carritoDiv = document.getElementById('carrito-contenido');
+        if(carritoDiv) {
+            if(carrito.length === 0) {
+                carritoDiv.innerHTML = '<p>Tu carrito está vacío</p>';
+            } else {
+                let total = 0;
+                let html = '<table border="1" cellpadding="5" style="width:100%; border-collapse:collapse;">';
+                html += '<tr bgcolor="#ddd"><th>Producto</th><th>Cantidad</th><th>Subtotal</th><th></th></tr>';
+
+                carrito.forEach((item, index) => {
+                    const subtotal = item.precio * item.cantidad;
+                    total += subtotal;
+                    html += `<tr>
+                        <td>${item.nombre}</td>
+                        <td>${item.cantidad}</td>
+                        <td>$${subtotal}</td>
+                        <td><button onclick="eliminarDelCarrito(${index})">❌</button></td>
+                    </tr>`;
+                });
+
+                html += `<tr bgcolor="#eee"><td colspan="2"><strong>Total</strong></td><td colspan="2"><strong>$${total}</strong></td></tr>`;
+                html += '</table>';
+                carritoDiv.innerHTML = html;
+            }
+        }
+    }
+
+    function eliminarDelCarrito(index) {
+        carrito.splice(index, 1);
+        actualizarCarrito();
+        if(document.getElementById('seccion-carrito').style.display !== 'none') {
+            mostrarSeccion('carrito');
+        }
+    }
+
+    function vaciarCarrito() {
+        if(carrito.length > 0 && confirm('¿Vaciar carrito?')) {
+            carrito = [];
+            actualizarCarrito();
+            mostrarSeccion('carrito');
+        }
+    }
+
+    function pagar() {
+        if(carrito.length === 0) {
+            alert('Carrito vacío');
+        } else {
+            const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+            alert(`✅ Gracias por tu compra!\nTotal: $${total}\n¡Vuelve pronto!`);
+            carrito = [];
+            actualizarCarrito();
+            mostrarSeccion('carrito');
+        }
+    }
+
+    // FUNCIÓN PARA MOSTRAR PRODUCTOS EN UNA SECCIÓN
+    function renderizarProductos(contenedorId, categoriaFiltro = null) {
+        let productosFiltrados = productos;
+        if(categoriaFiltro) {
+            productosFiltrados = productos.filter(p => p.categoria === categoriaFiltro);
+        }
+
+        const contenedor = document.getElementById(contenedorId);
+        if(!contenedor) return;
+
+        contenedor.innerHTML = '';
+
+        productosFiltrados.forEach(producto => {
+            const mascara = document.createElement('div');
+            mascara.className = 'mascara';
+            mascara.onclick = () => mostrarEnFrame(producto.id);
+            mascara.innerHTML = `
+                <img src="${producto.imagen}" alt="${producto.nombre}">
+                <h4>${producto.nombre}</h4>
+                <p class="precio">$${producto.precio} MXN</p>
+                <p><small>${producto.rating}</small></p>
+                <button onclick="event.stopPropagation(); agregarAlCarrito(${producto.id})">➕ Agregar</button>
+            `;
+            contenedor.appendChild(mascara);
+        });
+    }
+
+    // FUNCIÓN PARA MOSTRAR PRODUCTO EN EL FRAME
+    function mostrarEnFrame(id) {
+        const producto = productos.find(p => p.id === id);
+        const frame = document.getElementById('frame-contenido');
+
+        frame.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}">
+            <div class="frame-titulo">${producto.nombre}</div>
+            <div class="frame-precio">$${producto.precio} MXN</div>
+            <div>${producto.rating}</div>
+            <p><strong>Descripción:</strong><br>${producto.descripcion}</p>
+            <button onclick="agregarAlCarrito(${producto.id})">➕ Agregar al Carrito</button>
+        `;
+    }
+
+    // FUNCIÓN PARA CAMBIAR DE SECCIÓN
+    function mostrarSeccion(seccion) {
+        // Ocultar todas las secciones
+        const secciones = ['inicio', 'populares', 'platosfuertes', 'postres', 'bebidas', 'saludable', 'carrito'];
+        secciones.forEach(sec => {
+            const elemento = document.getElementById(`seccion-${sec}`);
+            if(elemento) elemento.style.display = 'none';
+        });
+
+        // Mostrar la sección seleccionada
+        const mostrar = document.getElementById(`seccion-${seccion}`);
+        if(mostrar) mostrar.style.display = 'block';
+
+        // Renderizar productos según la sección
+        if(seccion === 'inicio') {
+            renderizarProductos('grid-inicio');
+        } else if(seccion === 'populares') {
+            renderizarProductos('grid-populares', 'populares');
+        } else if(seccion === 'platosfuertes') {
+            renderizarProductos('grid-platosfuertes', 'platosfuertes');
+        } else if(seccion === 'postres') {
+            renderizarProductos('grid-postres', 'postres');
+        } else if(seccion === 'bebidas') {
+            renderizarProductos('grid-bebidas', 'bebidas');
+        } else if(seccion === 'saludable') {
+            renderizarProductos('grid-saludable', 'saludable');
+        } else if(seccion === 'carrito') {
+            actualizarCarrito();
+        }
+    }
+
+    // INICIALIZAR - Mostrar inicio al cargar
+    mostrarSeccion('inicio');
+    actualizarCarrito();
+</script>
+
+</body>
+</html>
